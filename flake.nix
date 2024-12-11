@@ -47,6 +47,7 @@
         dock = {
           autohide = true;
           show-recents = false;  # disable recent apps
+          orientation = "right";
         };
         menuExtraClock = {
           ShowDate = 1;
