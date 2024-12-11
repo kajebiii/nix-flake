@@ -9,6 +9,10 @@
 sh <(curl -L https://nixos.org/nix/install)
 git clone git@github.com:kajebiii/nix-flake.git
 cd nix-flake
+# Modify userName and userEmail on modules/apps/git.nix
+# Modify "macstudio-jongbeomkim" to your username (check echo $HOME) on flake.nix and modules/system/home.nix
+vim ...
+
 make apply
 ```
 
