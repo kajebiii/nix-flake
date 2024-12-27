@@ -5,6 +5,7 @@
       brews = [
         "asdf"
         "mas"
+        "jenv"
       ];
       casks = [
         ## Basic apps

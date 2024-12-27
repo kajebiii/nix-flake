@@ -17,6 +17,7 @@
       export EDITOR=vim
       source ~/.p10k.zsh
       source ~/.hooks.zsh
+      source ~/.zshrc
       '';
       initExtra = ''
       [[ ! -f $(dirname $(dirname $(readlink -f $(which asdf))))/asdf.sh ]] || source $(dirname $(dirname $(readlink -f $(which asdf))))/asdf.sh
@@ -25,6 +26,10 @@
       export AWS_PROFILE=saml
       export VAULT_ADDR=https://vault.devsisters.cloud
       export PATH=$PATH:/Applications/Wireshark.app/Contents/MacOS
+
+      export PATH="$HOME/.jenv/bin:$PATH"
+      eval "$(jenv init -)"
+
 
       alias vaultctx=~/.vaultctx/script
 
