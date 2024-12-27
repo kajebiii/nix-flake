@@ -24,3 +24,6 @@ rustup default stable // choose a version of cargo to run
 
 ### NOTE
 Use raycast instead of spotlight, alfred
+
+### Links
+- https://search.nixos.org/packages
