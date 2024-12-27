@@ -54,7 +54,6 @@
       protobuf
       grpcui
       discord
-      fnm
     ]) ++ (with pkgs.unstable; [
       go
     ]);
