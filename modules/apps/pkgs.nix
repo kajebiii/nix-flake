@@ -54,6 +54,7 @@
       protobuf
       grpcui
       discord
+      nodePackages_latest.diff2html-cli
     ]) ++ (with pkgs.unstable; [
       go
     ]);

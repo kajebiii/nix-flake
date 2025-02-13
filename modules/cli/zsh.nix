@@ -40,7 +40,7 @@
       typeset -a precmd_functions
       # precmd_functions+=(load_vault_envs)
 
-      . $(brew --prefix asdf)/libexec/asdf.sh
+      # . $(brew --prefix asdf)/libexec/asdf.sh
 
       bindkey "\e[1;3D" backward-word     # ⌥←
       bindkey "\e[1;3C" forward-word      # ⌥→
