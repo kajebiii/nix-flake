@@ -1,4 +1,4 @@
-{ pkgs, lib, config, options, ... }:
+{ pkgs, lib, config, options, inputs, ... }:
 let
   user = "macstudio-jongbeomkim";
 in with lib; {
