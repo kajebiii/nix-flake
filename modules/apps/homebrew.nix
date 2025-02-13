@@ -32,6 +32,7 @@
         "figma"
         "wireshark"
         "1password"
+        "unity-hub"
       ];
       masApps = {
         "KakaoTalk" = 869223134;
