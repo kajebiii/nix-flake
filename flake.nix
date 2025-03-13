@@ -48,6 +48,7 @@
           autohide = true;
           show-recents = false;  # disable recent apps
           orientation = "right";
+          mru-spaces = false;
         };
         menuExtraClock = {
           ShowDate = 1;
