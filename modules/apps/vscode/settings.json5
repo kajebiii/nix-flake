@@ -1,0 +1,33 @@
+{
+  "editor.tabSize": 2,
+  "files.insertFinalNewline": true,
+  "editor.formatOnSave": true,
+  "editor.codeActionsOnSave": {
+    "source.fixAll.eslint": "explicit"
+  },
+  "eslint.workingDirectories": [
+    "./client",
+    "./server",
+    "."
+  ],
+  "latex-workshop.view.pdf.viewer": "tab",
+  "[python]": {
+    "editor.formatOnType": true
+  },
+  "git.openRepositoryInParentFolders": "never",
+  "editor.minimap.enabled": false,
+  "files.autoSave": "afterDelay",
+  "rust-analyzer.inlayHints.maxLength": null,
+  "metals.scalafmtConfigPath": ".scalafmt.conf",
+  "metals.javaVersion": "21",
+  "files.eol": "\n",
+  "files.watcherExclude": {
+    "**/.bloop": true,
+    "**/.metals": true,
+    "**/.ammonite": true
+  },
+  "window.zoomLevel": 1,
+  "workbench.colorTheme": "Gruvbox Dark Hard",
+  "workbench.iconTheme": "vscode-icons",
+  "editor.semanticHighlighting.enabled": true
+}

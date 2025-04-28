@@ -1,6 +1,24 @@
 { config, lib, pkgs, ... }:
+let
+  sudo = "/usr/bin/sudo";
+  user = "macstudio-jongbeomkim";
+  sourcePath = "~${user}/nix-flake/modules/apps/vscode";
+  targetPath = "~${user}/Library/'Application Support'/Code/User";
+  # targetPath = "~${user}/test/test/'test test'";
+  mkSymlink = oldFileName: newFileName: ''
+    ${sudo} -u ${user} ${lib.getExe' pkgs.coreutils "ln"} -nsf ${sourcePath}/${oldFileName} ${targetPath}/${newFileName}
+  '';
+in
 {
   config = {
+    system.activationScripts = {
+      postUserActivation = {
+        text = ''
+          ${sudo} -u ${user} mkdir -p ${targetPath}
+          ${mkSymlink "settings.json5" "settings.json"}
+        '';
+      };
+    };
     environment.systemPackages = with pkgs; [ vscode ];
     home.programs = {
       vscode = {
@@ -43,17 +61,6 @@
             sha256 = "sha256-h/Iyk8CKFr0M5ULXbEbjFsqplnlN7F+ZvnUTy1An5t4=";
           }
         ];
-        userSettings = {
-          "window.zoomLevel" = 1;
-          "workbench.colorTheme" = "Gruvbox Dark Hard";
-          "workbench.iconTheme" = "vscode-icons";
-          "files.eol" = "\n";
-          "files.watcherExclude" = {
-            "**/.bloop" = true;
-            "**/.metals" = true;
-            "**/.ammonite" = true;
-          };
-        };
       };
     };
   };
