@@ -32,6 +32,9 @@
           dbaeumer.vscode-eslint
           ## Prettier
           esbenp.prettier-vscode
+          ## Scala
+          scalameta.metals
+          scala-lang.scala
         ] ++ pkgs.vscode-utils.extensionsFromVscodeMarketplace [
           {
             name = "markdown-footnotes";
@@ -44,6 +47,12 @@
           "window.zoomLevel" = 1;
           "workbench.colorTheme" = "Gruvbox Dark Hard";
           "workbench.iconTheme" = "vscode-icons";
+          "files.eol" = "\n";
+          "files.watcherExclude" = {
+            "**/.bloop" = true;
+            "**/.metals" = true;
+            "**/.ammonite" = true;
+          };
         };
       };
     };

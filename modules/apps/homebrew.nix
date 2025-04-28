@@ -6,6 +6,7 @@
         "asdf"
         "mas"
         "jenv"
+        "bufbuild/buf/buf"
       ];
       casks = [
         ## Basic apps
