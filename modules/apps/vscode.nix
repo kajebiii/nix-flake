@@ -29,7 +29,7 @@ in
           #golang.go                     # Go
           bbenoist.nix                  # Nix
           #ms-python.python              # Python
-          rust-lang.rust-analyzer       # Rust
+          #rust-lang.rust-analyzer       # Rust
           #hashicorp.terraform           # Terraform
           #tamasfe.even-better-toml      # TOML
           redhat.vscode-yaml            # YAML
