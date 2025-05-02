@@ -29,5 +29,6 @@
   "window.zoomLevel": 1,
   "workbench.colorTheme": "Gruvbox Dark Hard",
   "workbench.iconTheme": "vscode-icons",
-  "editor.semanticHighlighting.enabled": true
+  "editor.semanticHighlighting.enabled": true,
+  "metals.serverVersion": "1.5.2+92-109bdf56-SNAPSHOT"
 }
