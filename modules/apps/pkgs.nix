@@ -55,6 +55,7 @@
       grpcui
       discord
       nodePackages_latest.diff2html-cli
+      claude-code
     ]) ++ (with pkgs.unstable; [
       go
     ]);

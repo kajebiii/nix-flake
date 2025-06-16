@@ -2,22 +2,27 @@
   description = "Example Darwin system flake";
 
   inputs = {
-    nixpkgs.url = "github:NixOS/nixpkgs/nixpkgs-24.11-darwin";
+    nixpkgs.url = "github:NixOS/nixpkgs/nixpkgs-25.05-darwin";
     nixpkgs-unstable.url = "github:nixos/nixpkgs/nixpkgs-unstable";
 
-    nix-darwin.url = "github:LnL7/nix-darwin/nix-darwin-24.11";
+    nix-darwin.url = "github:LnL7/nix-darwin/nix-darwin-25.05";
     nix-darwin.inputs.nixpkgs.follows = "nixpkgs";
     
-    home-manager.url = "github:nix-community/home-manager/release-24.11";
+    home-manager.url = "github:nix-community/home-manager/release-25.05";
     home-manager.inputs.nixpkgs.follows = "nixpkgs-unstable";
 
     nix-vscode-extensions.url = "github:nix-community/nix-vscode-extensions";
   };
   outputs = inputs@{ self, nix-darwin, nixpkgs, nixpkgs-unstable, home-manager, ... }:
   let
+    system = "aarch64-darwin";
     configuration = { pkgs, lib, config, ... }: {
       nixpkgs.config.allowUnfree = true;
       ## Configs needed for nix-darwin
+
+      ids.gids.nixbld = 350;
+
+      system.primaryUser = "macstudio-jongbeomkim";
       
       # List packages installed in system profile. To search by name, run:
       # $ nix-env -qaP | grep wget
@@ -26,15 +31,13 @@
         systemPath = [ "/opt/homebrew/bin" ];
         pathsToLink = [ "/Applications" ];
       };
-      # Auto upgrade nix package and the daemon service.
-      services.nix-daemon.enable = true;
       # Set Git commit hash for darwin-version.
       system.configurationRevision = self.rev or self.dirtyRev or null;
       # Used for backwards compatibility, please read the changelog before changing.
       # $ darwin-rebuild changelog
       system.stateVersion = 4;
 
-      security.pam.enableSudoTouchIdAuth = true;
+      security.pam.services.sudo_local.touchIdAuth = true;
       system.defaults = {
         finder = {
           _FXShowPosixPathInTitle = true;  # show full path in finder title
@@ -56,7 +59,6 @@
         };
       };
     };
-    system = "aarch64-darwin";
 
     overlays = import ./overlays.nix;
     overlay_module = { config, pkgs, lib, ... }: {
