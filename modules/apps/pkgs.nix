@@ -56,6 +56,7 @@
       discord
       nodePackages_latest.diff2html-cli
       teleport
+      postgresql
       # claude-code
     ]) ++ (with pkgs.unstable; [
       go
