@@ -30,5 +30,6 @@
   "workbench.colorTheme": "Gruvbox Dark Hard",
   "workbench.iconTheme": "vscode-icons",
   "editor.semanticHighlighting.enabled": true,
-  "metals.serverVersion": "1.5.2+92-109bdf56-SNAPSHOT"
+  "metals.serverVersion": "1.5.2+92-109bdf56-SNAPSHOT",
+  "github.copilot.nextEditSuggestions.enabled": true
 }
