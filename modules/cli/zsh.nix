@@ -11,40 +11,42 @@
     zsh = {
       enable = true;
       dotDir = ".config/zsh";
-      initExtraFirst = ''
-      export KUBE_EDITOR=vim
-      export K9S_EDITOR=vim
-      export EDITOR=vim
-      source ~/.p10k.zsh
-      source ~/.hooks.zsh
-      source ~/.zshrc
-      '';
-      initExtra = ''
-      [[ ! -f $(dirname $(dirname $(readlink -f $(which asdf))))/asdf.sh ]] || source $(dirname $(dirname $(readlink -f $(which asdf))))/asdf.sh
-      [[ ! -f $(dirname $(dirname $(readlink -f $(which asdf))))/share/asdf-vm/asdf.sh ]] || source $(dirname $(dirname $(readlink -f $(which asdf))))/share/asdf-vm/asdf.sh
-      export PATH=$PATH:~/.cargo/bin
-      export AWS_PROFILE=saml
-      export VAULT_ADDR=https://vault.devsisters.cloud
-      export PATH=$PATH:/Applications/Wireshark.app/Contents/MacOS
+      initContent = lib.mkMerge [
+        (lib.mkBefore ''
+        export KUBE_EDITOR=vim
+        export K9S_EDITOR=vim
+        export EDITOR=vim
+        source ~/.p10k.zsh
+        source ~/.hooks.zsh
+        source ~/.zshrc
+        '')
+        ''
+        [[ ! -f $(dirname $(dirname $(readlink -f $(which asdf))))/asdf.sh ]] || source $(dirname $(dirname $(readlink -f $(which asdf))))/asdf.sh
+        [[ ! -f $(dirname $(dirname $(readlink -f $(which asdf))))/share/asdf-vm/asdf.sh ]] || source $(dirname $(dirname $(readlink -f $(which asdf))))/share/asdf-vm/asdf.sh
+        export PATH=$PATH:~/.cargo/bin
+        export AWS_PROFILE=saml
+        export VAULT_ADDR=https://vault.devsisters.cloud
+        export PATH=$PATH:/Applications/Wireshark.app/Contents/MacOS
 
-      export PATH="$HOME/.jenv/bin:$PATH"
-      eval "$(jenv init -)"
+        export PATH="$HOME/.jenv/bin:$PATH"
+        eval "$(jenv init -)"
 
 
-      alias vaultctx=~/.vaultctx/script
+        alias vaultctx=~/.vaultctx/script
 
-      function load_vault_envs() {
-        export VAULT_ADDR=$(vaultctx get-addr)
-      }
+        function load_vault_envs() {
+          export VAULT_ADDR=$(vaultctx get-addr)
+        }
 
-      typeset -a precmd_functions
-      # precmd_functions+=(load_vault_envs)
+        typeset -a precmd_functions
+        # precmd_functions+=(load_vault_envs)
 
-      # . $(brew --prefix asdf)/libexec/asdf.sh
+        # . $(brew --prefix asdf)/libexec/asdf.sh
 
-      bindkey "\e[1;3D" backward-word     # ⌥←
-      bindkey "\e[1;3C" forward-word      # ⌥→
-      '';
+        bindkey "\e[1;3D" backward-word     # ⌥←
+        bindkey "\e[1;3C" forward-word      # ⌥→
+        ''
+      ];
       shellAliases = {
         awslogin = "saml2aws login --force --session-duration=43200 --disable-keychain";
         vaultlogin = "vault login -method=oidc";

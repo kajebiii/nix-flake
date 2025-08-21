@@ -3,7 +3,7 @@ update:
 apply:
 	nix-channel --update darwin
 	# nix run nix-darwin -- switch --flake .
-	nix run --extra-experimental-features nix-command --extra-experimental-features flakes nix-darwin -- switch --flake .
+	sudo -E nix run --extra-experimental-features nix-command --extra-experimental-features flakes nix-darwin -- switch --flake .
 gc:
 	nix-collect-garbage
 gc_full:
