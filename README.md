@@ -20,6 +20,9 @@ make apply
 ```bash
 cs setup --jvm graalvm-java21:21 // sbt, scala-cli, etc...
 rustup default stable // choose a version of cargo to run
+
+# For Steam (Apple Silicon only, See https://formulae.brew.sh/cask/steam)
+softwareupdate --install-rosetta --agree-to-license
 ```
 
 ### NOTE

@@ -35,6 +35,7 @@
         "wireshark"
         "1password"
         "unity-hub"
+        "steam"
       ];
       masApps = {
         "KakaoTalk" = 869223134;
