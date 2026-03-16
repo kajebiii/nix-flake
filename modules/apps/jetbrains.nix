@@ -4,7 +4,7 @@
     home.packages = with pkgs.unstable; [
       #jetbrains.datagrip
       #jetbrains.goland
-      jetbrains.idea-ultimate
+      jetbrains.idea
       #jetbrains.pycharm-professional
       jetbrains.rust-rover
       #jetbrains.rider

@@ -41,7 +41,6 @@
       go-migrate
       colima
       minikube
-      lima
       krew
       kustomize
       pipx
