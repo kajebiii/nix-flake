@@ -9,6 +9,32 @@ in
     };
   })
   (final: prev: {
+    ccusage = pkgs.stdenv.mkDerivation rec {
+      pname = "ccusage";
+      version = "18.0.10";
+
+      src = pkgs.fetchurl {
+        url = "https://registry.npmjs.org/ccusage/-/ccusage-${version}.tgz";
+        hash = "sha512-bVNqaBFLo3lnSV6afiV/wtLselkGQLV4iXltcTRJwoqbDnnutw6ZNliF1CYwpF/7M0xsmXZnExR0CxdDSdT9xg==";
+      };
+
+      nativeBuildInputs = [ pkgs.makeWrapper ];
+      buildInputs = [ pkgs.nodejs ];
+
+      unpackPhase = ''
+        mkdir -p source
+        tar xzf $src --strip-components=1 -C source
+      '';
+
+      installPhase = ''
+        mkdir -p $out/lib/ccusage $out/bin
+        cp -r source/* $out/lib/ccusage/
+        makeWrapper ${pkgs.nodejs}/bin/node $out/bin/ccusage \
+          --add-flags "$out/lib/ccusage/dist/index.js"
+      '';
+    };
+  })
+  (final: prev: {
     terraform-config-inspect = pkgs.buildGoModule rec {
       pname = "terraform-config-inspect";
       version = "1.6.0";

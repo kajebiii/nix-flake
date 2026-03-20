@@ -56,6 +56,7 @@
       nodePackages_latest.diff2html-cli
       teleport
       postgresql
+      ccusage
       # claude-code
     ]) ++ (with pkgs.unstable; [
       go
