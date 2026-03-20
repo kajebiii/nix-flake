@@ -28,11 +28,11 @@
         "insomnia"
         "maccy"
         ## For work
-        "docker"
+        "docker-desktop"
         "slack"
         "wrike"
         "figma"
-        "wireshark"
+        "wireshark-app"
         "1password"
         "unity-hub"
         "steam"
