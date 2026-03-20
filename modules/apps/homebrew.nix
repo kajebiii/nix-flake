@@ -36,6 +36,7 @@
         "1password"
         "unity-hub"
         "steam"
+        "manaflow-ai/cmux/cmux"
       ];
       masApps = {
         "KakaoTalk" = 869223134;
