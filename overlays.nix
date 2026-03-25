@@ -35,28 +35,19 @@ in
     };
   })
   (final: prev: {
-    agent-slack = pkgs.stdenv.mkDerivation rec {
+    agent-slack = pkgs.stdenvNoCC.mkDerivation rec {
       pname = "agent-slack";
       version = "0.6.1";
 
       src = pkgs.fetchurl {
-        url = "https://registry.npmjs.org/agent-slack/-/agent-slack-${version}.tgz";
-        hash = "sha512-tZ1oBHJO3D2nQC6+nuEoy1t9vQQtgBcuPEz+P/Bu4cAbcki8QWCQtiBbRNYLSnnrhpC8izoN8qeR+4ISPKALLQ==";
+        url = "https://github.com/stablyai/agent-slack/releases/download/v${version}/agent-slack-darwin-arm64";
+        hash = "sha256-c3JS2AIDm0AWz+xvP9Ole1MlJpUl1bzYaewjBh6ylcU=";
       };
 
-      nativeBuildInputs = [ pkgs.makeWrapper ];
-      buildInputs = [ pkgs.nodejs ];
-
-      unpackPhase = ''
-        mkdir -p source
-        tar xzf $src --strip-components=1 -C source
-      '';
+      dontUnpack = true;
 
       installPhase = ''
-        mkdir -p $out/lib/agent-slack $out/bin
-        cp -r source/* $out/lib/agent-slack/
-        makeWrapper ${pkgs.nodejs}/bin/node $out/bin/agent-slack \
-          --add-flags "$out/lib/agent-slack/dist/index.js"
+        install -Dm755 "$src" "$out/bin/agent-slack"
       '';
     };
   })
