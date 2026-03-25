@@ -57,6 +57,7 @@
       teleport
       postgresql
       ccusage
+      agent-slack
       # claude-code
     ]) ++ (with pkgs.unstable; [
       go

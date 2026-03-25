@@ -35,6 +35,32 @@ in
     };
   })
   (final: prev: {
+    agent-slack = pkgs.stdenv.mkDerivation rec {
+      pname = "agent-slack";
+      version = "0.6.1";
+
+      src = pkgs.fetchurl {
+        url = "https://registry.npmjs.org/agent-slack/-/agent-slack-${version}.tgz";
+        hash = "sha512-tZ1oBHJO3D2nQC6+nuEoy1t9vQQtgBcuPEz+P/Bu4cAbcki8QWCQtiBbRNYLSnnrhpC8izoN8qeR+4ISPKALLQ==";
+      };
+
+      nativeBuildInputs = [ pkgs.makeWrapper ];
+      buildInputs = [ pkgs.nodejs ];
+
+      unpackPhase = ''
+        mkdir -p source
+        tar xzf $src --strip-components=1 -C source
+      '';
+
+      installPhase = ''
+        mkdir -p $out/lib/agent-slack $out/bin
+        cp -r source/* $out/lib/agent-slack/
+        makeWrapper ${pkgs.nodejs}/bin/node $out/bin/agent-slack \
+          --add-flags "$out/lib/agent-slack/dist/index.js"
+      '';
+    };
+  })
+  (final: prev: {
     terraform-config-inspect = pkgs.buildGoModule rec {
       pname = "terraform-config-inspect";
       version = "1.6.0";
