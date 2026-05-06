@@ -52,6 +52,23 @@ in
     };
   })
   (final: prev: {
+    claude-history = pkgs.stdenvNoCC.mkDerivation rec {
+      pname = "claude-history";
+      version = "0.1.51";
+
+      src = pkgs.fetchurl {
+        url = "https://github.com/raine/claude-history/releases/download/v${version}/claude-history-darwin-arm64.tar.gz";
+        hash = "sha256-S71wAeGRCYItjX/zERiX0DWsaiYZHSLiYjduzlxK6dg=";
+      };
+
+      sourceRoot = ".";
+
+      installPhase = ''
+        install -Dm755 claude-history "$out/bin/claude-history"
+      '';
+    };
+  })
+  (final: prev: {
     terraform-config-inspect = pkgs.buildGoModule rec {
       pname = "terraform-config-inspect";
       version = "1.6.0";

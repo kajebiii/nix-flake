@@ -58,6 +58,7 @@
       postgresql
       ccusage
       agent-slack
+      claude-history
       # claude-code
     ]) ++ (with pkgs.unstable; [
       go
