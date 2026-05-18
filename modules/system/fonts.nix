@@ -5,6 +5,8 @@
       meslo-lgs-nf
       pretendard
       pretendard-jp
+      d2coding
+      nerd-fonts.symbols-only
     ];
   };
 }
