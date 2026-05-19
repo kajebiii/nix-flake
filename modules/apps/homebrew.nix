@@ -8,6 +8,7 @@
         "jenv"
         "bufbuild/buf/buf"
         "gh"
+        "pre-commit"
       ];
       casks = [
         ## Basic apps
