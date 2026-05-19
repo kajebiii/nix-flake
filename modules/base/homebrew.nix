@@ -23,6 +23,7 @@
       taps = [
         "homebrew/services"
         "manaflow-ai/cmux"
+        "steipete/tap"
       ];
     };
 

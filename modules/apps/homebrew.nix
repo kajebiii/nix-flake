@@ -38,6 +38,7 @@
         "unity-hub"
         "steam"
         "manaflow-ai/cmux/cmux"
+        "steipete/tap/codexbar"
       ];
       masApps = {
         "KakaoTalk" = 869223134;
