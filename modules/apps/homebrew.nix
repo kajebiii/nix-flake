@@ -39,6 +39,8 @@
         "steam"
         "manaflow-ai/cmux/cmux"
         "steipete/tap/codexbar"
+        "codex"
+        "codex-app"
       ];
       masApps = {
         "KakaoTalk" = 869223134;

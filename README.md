@@ -2,6 +2,21 @@
 
 macOS (Apple Silicon) 개발 환경을 nix-darwin + home-manager로 선언적으로 관리하는 flake.
 
+## 트러블슈팅 (Troubleshooting)
+
+### GitHub API Rate Limit (403 Error)
+
+`make apply` 실행 중 GitHub API 403 에러가 발생하면, GitHub 인증 토큰(PAT)이 필요합니다.
+
+1. `.env.example` 파일을 복사하여 `.env` 파일을 만듭니다.
+2. [GitHub Personal Access Token](https://github.com/settings/tokens)을 생성합니다. (권한은 필요 없음)
+3. `.env` 파일의 `GITHUB_TOKEN`에 토큰 값을 넣습니다.
+4. 아래 명령어로 적용합니다:
+   ```bash
+   source .env
+   make apply
+   ```
+
 ## 어디를 봐야 하나?
 
 내 환경을 커스터마이징하고 싶으면 아래 파일만 보면 됩니다.
