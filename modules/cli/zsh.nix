@@ -48,7 +48,7 @@
         ''
       ];
       shellAliases = {
-        awslogin = "saml2aws login --force --session-duration=43200 --disable-keychain";
+        awslogin = "kc2aws login";
         vaultlogin = "vault login -method=oidc";
         # Terraform
         tf = "terraform";
