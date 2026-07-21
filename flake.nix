@@ -12,6 +12,8 @@
     home-manager.inputs.nixpkgs.follows = "nixpkgs-unstable";
 
     nix-vscode-extensions.url = "github:nix-community/nix-vscode-extensions";
+
+    wg.url = "git+ssh://git@github.com/devsisters/wg.git";
   };
   outputs = inputs@{ self, nix-darwin, nixpkgs, nixpkgs-unstable, home-manager, ... }:
   let
@@ -71,6 +73,7 @@
     # Hostname
     darwinConfigurations."macstudio-jongbeomkim" = nix-darwin.lib.darwinSystem {
       inherit system;
+      specialArgs = { inherit inputs; };
       modules = [
         home-manager.darwinModules.home-manager
         configuration

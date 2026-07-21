@@ -1,4 +1,4 @@
-{ config, lib, pkgs, pkgs-unstable, ... }:
+{ config, lib, pkgs, pkgs-unstable, inputs, ... }:
 let
   gemini-cli = pkgs.writeShellScriptBin "gemini" ''
     exec ${pkgs.nodejs}/bin/npx --yes @google/gemini-cli "$@"
@@ -65,6 +65,7 @@ in
       agent-slack
       claude-history
       gemini-cli
+      inputs.wg.packages.${pkgs.system}.wg-cli
     ]) ++ (with pkgs.unstable; [
       go
     ]);
