@@ -22,9 +22,9 @@
   "metals.javaVersion": "21",
   "files.eol": "\n",
   "files.watcherExclude": {
-    "**/.bloop": true,
-    "**/.metals": true,
-    "**/.ammonite": true
+    "**/.ammonite": true,
+    "**/.bloop/**": true,
+    "**/.metals/**/*.{java,scala}": true
   },
   "window.zoomLevel": 1,
   "workbench.colorTheme": "Gruvbox Dark Hard",
