@@ -97,14 +97,9 @@ claude --version
 
 AI 서비스와 브라우저에는 작업 전용 계정으로 로그인합니다. 개인 Apple 계정·브라우저 동기화·SSH 키·클라우드 인증을 이 계정으로 가져오지 않습니다. 로그인 토큰과 API 키는 저장소나 Nix 표현식에 넣지 않습니다.
 
-기존 Git 실행 파일을 사용하면서 `.gitconfig`만 Home Manager로 관리합니다. 전역 작성자 이름·이메일은 비워 두고 `user.useConfigOnly = true`를 설정합니다. 작업 저장소에서 AI용 Git 작성자를 명시합니다. 기존 저장소에 이미 설정된 작성자는 별도로 확인합니다.
+기존 Git 실행 파일을 사용하면서 `.gitconfig`만 Home Manager로 관리합니다. 전역 작성자는 이름 `Jongbeom Kim`, 이메일 `kajebiii.lab@gmail.com`입니다. 이름은 기존 Mac과 같게 두고, 이메일로 커밋을 GitHub `kajebiii-lab` 계정에 연결합니다. 커밋 서명은 사용하지 않습니다.
 
-```bash
-git config --local user.name '<AI_ACCOUNT_NAME>'
-git config --local user.email '<AI_ACCOUNT_NOREPLY_EMAIL>'
-```
-
-꺾쇠 부분은 실제 AI 계정의 값으로 바꿉니다. GitHub noreply 주소는 해당 계정의 이메일 설정에서 확인합니다. Git 작성자와 push 인증은 별개입니다.
+Git 작성자와 push 권한은 별개입니다. push는 SSH 키(`~/.ssh/id_ed25519_github_lab`)로 인증된 `kajebiii-lab` 계정의 권한을 따르므로, 작업할 저장소마다 `kajebiii-lab`을 협업자로 추가해야 합니다. 공개 저장소도 협업자가 아니면 push할 수 없습니다.
 
 셸에는 Nix·Homebrew 경로를 연결하는 `.zshenv`와 `.zprofile`만 둡니다. 별도 zsh 패키지, `.zshrc`, 플러그인, Terraform 자동 설치 훅, direnv 설정은 배포하지 않습니다. 기존 `.gitconfig`·`.zshenv`·`.zprofile`이 있으면 Home Manager가 파일 충돌을 보고할 수 있습니다. 기존 파일을 강제로 덮어쓰지는 않습니다.
 
