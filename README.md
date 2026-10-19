@@ -1,15 +1,16 @@
 # nix-flake
 
-`kajebiii.lab`은 개인 로그인 정보와 데이터를 넣지 않는 AI 작업 전용 macOS 환경입니다. nix-darwin과 Home Manager로 설정을 관리하고, 처음 추가할 애플리케이션은 네 개로 제한합니다.
+`kajebiii.lab`은 개인 로그인 정보와 데이터를 넣지 않는 AI 작업 전용 macOS 환경입니다. nix-darwin과 Home Manager로 설정을 관리하고, 처음 추가할 애플리케이션은 다섯 개로 제한합니다.
 
 ## 설치 대상
 
 | Homebrew cask | 용도 |
 |---|---|
 | `codex` | Codex CLI |
-| `claude-code` | Claude Code CLI |
+| `claude-code@latest` | Claude Code CLI (latest 채널) |
 | `google-chrome` | Chrome 브라우저 |
 | `opera` | Opera 브라우저 |
+| `alfred` | 런처 (`Control + Space`) |
 
 Git·Vim·zsh는 이미 설치된 것을 사용합니다. Git·Vim·zsh 추가 패키지, gh·jq·fd·ripgrep, 언어 SDK, IDE, 컨테이너·DB·클라우드 도구, 글꼴, 셸 테마·플러그인은 기본 목록에 없습니다. 필요한 도구만 나중에 추가합니다. Nix·nix-darwin·Home Manager가 작동하는 데 필요한 기반 패키지와 전이 의존성은 별도입니다.
 
@@ -31,7 +32,17 @@ Homebrew의 자동 업데이트·전체 업그레이드·자동 삭제는 꺼져
 
 키 반복 값은 현재 Mac의 설정을 그대로 사용합니다. `make apply`로 적용하며, 키 반복 설정은 로그아웃 후 다시 로그인해야 반영될 수 있습니다.
 
-한영 전환은 `Command + Space`로 설정합니다. 적용 시 주 사용자의 ‘이전 입력 소스 선택’ 항목(ID 60)만 갱신하고, Spotlight를 포함한 다른 단축키는 보존합니다. 한국어·영어 입력 소스가 등록되어 있어야 하며, 단축키가 바로 반영되지 않으면 로그아웃 후 다시 로그인합니다. 다른 기능에 이미 `Command + Space`를 지정했다면 충돌할 수 있으며, 그 단축키를 자동으로 변경하지는 않습니다.
+단축키는 다음과 같이 설정합니다.
+
+| 기능 | 단축키 | 관리 방법 |
+|---|---|---|
+| 한영 전환 (이전 입력 소스 선택, ID 60) | `Command + Space` | `make apply` |
+| Spotlight 검색 (ID 64) | `Option + Space` | `make apply` |
+| Alfred | `Control + Space` | Alfred 환경설정에서 직접 지정 |
+
+적용 시 주 사용자의 ID 60·64 항목만 갱신하고 다른 단축키는 보존합니다. 한국어·영어 입력 소스가 등록되어 있어야 하며, 단축키가 바로 반영되지 않으면 로그아웃 후 다시 로그인합니다. 다른 기능에 이미 같은 단축키를 지정했다면 충돌할 수 있으며, 그 단축키를 자동으로 변경하지는 않습니다.
+
+Alfred 단축키는 기기별로 생성되는 Alfred 설정 폴더에 저장되어 Nix로 관리하지 않습니다. 처음 실행 후 Alfred Preferences → General → Alfred Hotkey에서 `Control + Space`를 지정합니다. `Control + Space`는 macOS 기본값에서 한영 전환 단축키였지만, 위 설정으로 한영 전환을 `Command + Space`로 옮겼으므로 비어 있습니다.
 
 ## 사용자와 기기
 
@@ -71,7 +82,9 @@ make apply
 
 `make build`는 시스템을 적용하지 않고 빌드합니다. `make apply`는 먼저 일반 사용자 권한으로 빌드한 뒤, 성공한 결과에 포함된 `darwin-rebuild`로 관리자 권한의 `switch`를 실행합니다. Homebrew 앱 설치는 `apply` 단계에서 수행합니다. `make build` 성공만으로 Homebrew 앱 설치까지 검증되는 것은 아닙니다.
 
-기본 구성은 `macbook-m5-jongbeomkim`입니다. 다른 이름을 사용하면 `make apply CONFIG=새구성이름`으로 지정합니다. Nix 의존성 갱신은 `make update`, AI CLI 갱신은 필요할 때 `brew upgrade --cask codex claude-code`를 실행합니다.
+기본 구성은 `macbook-m5-jongbeomkim`입니다. 다른 이름을 사용하면 `make apply CONFIG=새구성이름`으로 지정합니다. Nix 의존성 갱신은 `make update`, AI CLI 갱신은 필요할 때 `brew upgrade --cask codex claude-code@latest`를 실행합니다.
+
+Claude Code는 stable 채널보다 새 버전이 빨리 나오는 `claude-code@latest`를 사용합니다. 두 cask는 같은 `claude` 명령을 설치해 함께 설치할 수 없습니다. 이전에 `claude-code`를 설치했다면 `brew uninstall --cask claude-code` 후 `make apply`를 실행합니다.
 
 적용 후 확인:
 
@@ -128,7 +141,7 @@ Makefile은 `NIX_USER_CONF_FILES`에 파일 경로만 담아 빌드와 관리자
 | 앱·CLI 추가 | `modules/apps/homebrew.nix` |
 | Homebrew 동작 정책 | `modules/base/homebrew.nix` |
 | Git 설정 | `modules/apps/git.nix` |
-| macOS 기본 설정·키 반복·한영 전환 | `modules/system/defaults.nix` |
+| macOS 기본 설정·키 반복·한영 전환·Spotlight 단축키 | `modules/system/defaults.nix` |
 | 사용자·최소 셸 연결 | `modules/system/home.nix` |
 | 계정명·구성 이름 | `flake.nix` |
 

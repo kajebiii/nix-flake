@@ -27,20 +27,34 @@
     };
   };
 
-  system.activationScripts.postActivation.text = lib.mkAfter ''
-    # ID 60 selects the previous input source. Merge only this shortcut;
-    # writing AppleSymbolicHotKeys through CustomUserPreferences replaces all IDs.
-    /bin/launchctl asuser "$(/usr/bin/id -u -- ${lib.escapeShellArg config.system.primaryUser})" \
-      /usr/bin/sudo --user=${lib.escapeShellArg config.system.primaryUser} --set-home -- \
-      /usr/bin/defaults write com.apple.symbolichotkeys AppleSymbolicHotKeys \
-        -dict-add 60 '<dict>
-          <key>enabled</key><true/>
-          <key>value</key>
-          <dict>
-            <key>parameters</key>
-            <array><integer>32</integer><integer>49</integer><integer>1048576</integer></array>
-            <key>type</key><string>standard</string>
-          </dict>
-        </dict>'
-  '';
+  system.activationScripts.postActivation.text =
+    let
+      user = lib.escapeShellArg config.system.primaryUser;
+      # Merge one AppleSymbolicHotKeys entry; writing the whole dict through
+      # CustomUserPreferences would replace every other shortcut ID.
+      setHotKey = id: modifiers: ''
+        /bin/launchctl asuser "$(/usr/bin/id -u -- ${user})" \
+          /usr/bin/sudo --user=${user} --set-home -- \
+          /usr/bin/defaults write com.apple.symbolichotkeys AppleSymbolicHotKeys \
+            -dict-add ${toString id} '<dict>
+              <key>enabled</key><true/>
+              <key>value</key>
+              <dict>
+                <key>parameters</key>
+                <array><integer>32</integer><integer>49</integer><integer>${toString modifiers}</integer></array>
+                <key>type</key><string>standard</string>
+              </dict>
+            </dict>'
+      '';
+    in
+    lib.mkAfter ''
+      # 60: Select the previous input source -> Command-Space
+      ${setHotKey 60 1048576}
+      # 64: Show Spotlight search -> Option-Space
+      ${setHotKey 64 524288}
+      # Reload keyboard defaults so the shortcuts work without logging out.
+      /bin/launchctl asuser "$(/usr/bin/id -u -- ${user})" \
+        /usr/bin/sudo --user=${user} -- \
+        /System/Library/PrivateFrameworks/SystemAdministration.framework/Resources/activateSettings -u
+    '';
 }
