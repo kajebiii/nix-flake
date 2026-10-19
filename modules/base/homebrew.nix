@@ -4,7 +4,7 @@
     # Initialize Homebrew Casks
     homebrew = {
       enable = true;
-      brewPrefix = "/opt/homebrew/bin";
+      prefix = "/opt/homebrew";
       onActivation = {
         autoUpdate = false;
         cleanup = "none";
@@ -13,7 +13,6 @@
 
       global = {
         brewfile = true;
-        lockfiles = true;
       };
 
       caskArgs.require_sha = true;
