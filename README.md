@@ -21,7 +21,7 @@ Homebrew의 자동 업데이트·전체 업그레이드·자동 삭제는 꺼져
 
 `modules/system/defaults.nix`에서 Dock을 오른쪽에 배치하고, 키 반복 속도 `KeyRepeat = 2`, 반복 시작 대기 시간 `InitialKeyRepeat = 15`를 관리합니다. 키 반복 값은 현재 Mac의 설정을 그대로 사용합니다. `make apply`로 적용하며, 키 반복 설정은 로그아웃 후 다시 로그인해야 반영될 수 있습니다.
 
-한영 전환 단축키는 아직 Nix에서 관리하지 않습니다.
+한영 전환은 `Command + Space`로 설정합니다. 적용 시 주 사용자의 ‘이전 입력 소스 선택’ 항목(ID 60)만 갱신하고, Spotlight를 포함한 다른 단축키는 보존합니다. 한국어·영어 입력 소스가 등록되어 있어야 하며, 단축키가 바로 반영되지 않으면 로그아웃 후 다시 로그인합니다. 다른 기능에 이미 `Command + Space`를 지정했다면 충돌할 수 있으며, 그 단축키를 자동으로 변경하지는 않습니다.
 
 ## 사용자와 기기
 
@@ -118,7 +118,7 @@ Makefile은 `NIX_USER_CONF_FILES`에 파일 경로만 담아 빌드와 관리자
 | 앱·CLI 추가 | `modules/apps/homebrew.nix` |
 | Homebrew 동작 정책 | `modules/base/homebrew.nix` |
 | Git 설정 | `modules/apps/git.nix` |
-| Dock·키 반복 설정 | `modules/system/defaults.nix` |
+| Dock·키 반복·한영 전환 설정 | `modules/system/defaults.nix` |
 | 사용자·최소 셸 연결 | `modules/system/home.nix` |
 | 계정명·구성 이름 | `flake.nix` |
 

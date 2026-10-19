@@ -1,4 +1,4 @@
-{ ... }: {
+{ config, lib, ... }: {
   system.defaults = {
     dock.orientation = "right";
     NSGlobalDomain = {
@@ -7,4 +7,21 @@
       InitialKeyRepeat = 15;
     };
   };
+
+  system.activationScripts.postActivation.text = lib.mkAfter ''
+    # ID 60 selects the previous input source. Merge only this shortcut;
+    # writing AppleSymbolicHotKeys through CustomUserPreferences replaces all IDs.
+    /bin/launchctl asuser "$(/usr/bin/id -u -- ${lib.escapeShellArg config.system.primaryUser})" \
+      /usr/bin/sudo --user=${lib.escapeShellArg config.system.primaryUser} --set-home -- \
+      /usr/bin/defaults write com.apple.symbolichotkeys AppleSymbolicHotKeys \
+        -dict-add 60 '<dict>
+          <key>enabled</key><true/>
+          <key>value</key>
+          <dict>
+            <key>parameters</key>
+            <array><integer>32</integer><integer>49</integer><integer>1048576</integer></array>
+            <key>type</key><string>standard</string>
+          </dict>
+        </dict>'
+  '';
 }
