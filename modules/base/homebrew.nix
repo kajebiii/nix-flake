@@ -6,9 +6,9 @@
       enable = true;
       brewPrefix = "/opt/homebrew/bin";
       onActivation = {
-        autoUpdate = true;
-        cleanup = "zap";
-        upgrade = true;
+        autoUpdate = false;
+        cleanup = "none";
+        upgrade = false;
       };
 
       global = {
@@ -16,18 +16,10 @@
         lockfiles = true;
       };
 
-      extraConfig = ''
-        cask_args require_sha: true
-      '';
-
-      taps = [
-        "homebrew/services"
-        "manaflow-ai/cmux"
-        "steipete/tap"
-      ];
+      caskArgs.require_sha = true;
     };
 
-    env.HOMEBREW_NO_ANAYTICS = "1";
+    env.HOMEBREW_NO_ANALYTICS = "1";
     env.PATH = [ "/opt/homebrew/bin" ];
   };
 }

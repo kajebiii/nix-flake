@@ -1,6 +1,6 @@
-{ pkgs, lib, config, options, inputs, ... }:
+{ lib, config, options, inputs, ... }:
 let
-  user = "macstudio-jongbeomkim";
+  user = config.system.primaryUser;
 in with lib; {
   options = with types; {
     home = {
@@ -37,12 +37,24 @@ in with lib; {
   };
   
   config = {
-    programs.zsh.enable = true;
+    # Use macOS zsh instead of installing another shell and its completions.
+    programs.zsh.enable = false;
     users.users.${user} = {
       name = user;
       home = "/Users/${user}";
-      shell = pkgs.zsh;
+      shell = "/bin/zsh";
     };
+
+    # Keep Nix/Homebrew paths available to the system shell without plugins.
+    home.file.".zshenv".text = ''
+      if [ -z "''${__NIX_DARWIN_SET_ENVIRONMENT_DONE-}" ]; then
+        . ${config.system.build.setEnvironment}
+      fi
+    '';
+    home.file.".zprofile".text = ''
+      # Restore Nix paths after macOS /etc/zprofile runs path_helper.
+      . ${config.system.build.setEnvironment}
+    '';
 
     # Initialize Home
     home-manager = {

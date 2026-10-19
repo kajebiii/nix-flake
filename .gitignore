@@ -71,3 +71,7 @@ Temporary Items
 # End of https://www.toptal.com/developers/gitignore/api/linux,macos,visualstudiocode
 
 .env
+
+# Local Nix build outputs
+/result
+/result-*
