@@ -1,6 +1,25 @@
 { config, lib, ... }: {
+  security.pam.services.sudo_local.touchIdAuth = true;
+
   system.defaults = {
-    dock.orientation = "right";
+    finder = {
+      _FXShowPosixPathInTitle = true;
+      AppleShowAllExtensions = true;
+      FXEnableExtensionChangeWarning = false;
+      QuitMenuItem = true;
+      ShowPathbar = true;
+      ShowStatusBar = true;
+    };
+    dock = {
+      autohide = true;
+      show-recents = false;
+      orientation = "right";
+      mru-spaces = false;
+    };
+    menuExtraClock = {
+      ShowDate = 1;
+      ShowSeconds = true;
+    };
     NSGlobalDomain = {
       # Match this Mac's existing keyboard repeat settings.
       KeyRepeat = 2;
