@@ -6,9 +6,10 @@
       enable = true;
       prefix = "/opt/homebrew";
       onActivation = {
-        autoUpdate = false;
+        # Refresh the index and upgrade casks on every apply so AI CLIs stay current.
+        autoUpdate = true;
         cleanup = "none";
-        upgrade = false;
+        upgrade = true;
       };
 
       global = {

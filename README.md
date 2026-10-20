@@ -1,6 +1,6 @@
 # nix-flake
 
-`kajebiii.lab`은 개인 로그인 정보와 데이터를 넣지 않는 AI 작업 전용 macOS 환경입니다. nix-darwin과 Home Manager로 설정을 관리하고, 처음 추가할 애플리케이션은 다섯 개로 제한합니다.
+`kajebiii.lab`은 개인 로그인 정보와 데이터를 넣지 않는 AI 작업 전용 macOS 환경입니다. nix-darwin과 Home Manager로 설정을 관리하고, 처음 추가할 애플리케이션은 일곱 개로 제한합니다.
 
 ## 설치 대상
 
@@ -11,12 +11,14 @@
 | `google-chrome` | Chrome 브라우저 |
 | `opera` | Opera 브라우저 |
 | `alfred` | 런처 (`Control + Space`) |
+| `chatgpt` | ChatGPT 데스크톱 앱 |
+| `stablyai/orca/orca` | 여러 AI 코딩 에이전트를 worktree별로 실행하는 Orca (`stablyai/orca` tap) |
 
 Git·Vim·zsh는 이미 설치된 것을 사용합니다. Git·Vim·zsh 추가 패키지, gh·jq·fd·ripgrep, 언어 SDK, IDE, 컨테이너·DB·클라우드 도구, 글꼴, 셸 테마·플러그인은 기본 목록에 없습니다. 필요한 도구만 나중에 추가합니다. Nix·nix-darwin·Home Manager가 작동하는 데 필요한 기반 패키지와 전이 의존성은 별도입니다.
 
 `ripgrep`의 실행 명령은 `rg`이며 파일 **내용**을 검색합니다. `fd`는 파일명·경로를 검색합니다. `zsh`는 터미널에서 명령을 해석하는 셸이며 macOS의 `/bin/zsh`를 사용합니다.
 
-Homebrew의 자동 업데이트·전체 업그레이드·자동 삭제는 꺼져 있습니다. 브라우저 자체의 업데이트 기능은 별개입니다. 제외된 기존 앱이나 파일을 자동으로 지우지 않습니다.
+`make apply`는 Homebrew 앱 목록을 갱신하고 설치된 앱을 최신 버전으로 업그레이드합니다. 앱 자체 업데이트 기능이 있는 cask(Chrome·Orca 등)는 Homebrew가 건너뛰고 앱이 직접 업데이트합니다. 자동 삭제는 꺼져 있어 목록에서 제외된 기존 앱이나 파일을 지우지 않습니다.
 
 ## macOS 기본 설정
 
@@ -82,7 +84,7 @@ make apply
 
 `make build`는 시스템을 적용하지 않고 빌드합니다. `make apply`는 먼저 일반 사용자 권한으로 빌드한 뒤, 성공한 결과에 포함된 `darwin-rebuild`로 관리자 권한의 `switch`를 실행합니다. Homebrew 앱 설치는 `apply` 단계에서 수행합니다. `make build` 성공만으로 Homebrew 앱 설치까지 검증되는 것은 아닙니다.
 
-기본 구성은 `macbook-m5-jongbeomkim`입니다. 다른 이름을 사용하면 `make apply CONFIG=새구성이름`으로 지정합니다. Nix 의존성 갱신은 `make update`, AI CLI 갱신은 필요할 때 `brew upgrade --cask codex claude-code@latest`를 실행합니다.
+기본 구성은 `macbook-m5-jongbeomkim`입니다. 다른 이름을 사용하면 `make apply CONFIG=새구성이름`으로 지정합니다. Nix 의존성 갱신은 `make update`를 실행합니다. Codex·Claude Code 등 Homebrew 앱은 `make apply` 때 함께 업그레이드됩니다.
 
 Claude Code는 stable 채널보다 새 버전이 빨리 나오는 `claude-code@latest`를 사용합니다. 두 cask는 같은 `claude` 명령을 설치해 함께 설치할 수 없습니다. 이전에 `claude-code`를 설치했다면 `brew uninstall --cask claude-code` 후 `make apply`를 실행합니다.
 
@@ -140,4 +142,4 @@ Makefile은 `NIX_USER_CONF_FILES`에 파일 경로만 담아 빌드와 관리자
 | 사용자·최소 셸 연결 | `modules/system/home.nix` |
 | 계정명·구성 이름 | `flake.nix` |
 
-Homebrew 명령줄 도구는 `homebrew.brews`에, cask는 `homebrew.casks`에 추가합니다. 현재 별도 tap은 필요하지 않습니다. Chrome은 Homebrew 공식 cask가 고정 SHA를 제공하지 않아 해당 cask에만 `require_sha = false`를 지정합니다. 다른 cask에는 SHA 필수 정책을 유지합니다.
+Homebrew 명령줄 도구는 `homebrew.brews`에, cask는 `homebrew.casks`에 추가합니다. tap은 `homebrew.taps`에 추가합니다. 현재는 Orca 개발사의 공식 tap `stablyai/orca`만 사용합니다. Chrome은 Homebrew 공식 cask가 고정 SHA를 제공하지 않아 해당 cask에만 `require_sha = false`를 지정합니다. 다른 cask에는 SHA 필수 정책을 유지합니다.
