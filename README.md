@@ -1,10 +1,10 @@
 # nix-flake
 
-`kajebiii.lab`은 개인 로그인 정보와 데이터를 넣지 않는 AI 작업 전용 macOS 환경입니다. nix-darwin과 Home Manager로 설정을 관리하고, 처음 추가할 애플리케이션은 일곱 개로 제한합니다.
+`kajebiii.lab`은 개인 로그인 정보와 데이터를 넣지 않는 AI 작업 전용 macOS 환경입니다. nix-darwin과 Home Manager로 설정을 관리하고, 처음 추가할 애플리케이션과 도구는 아래 여덟 개로 제한합니다.
 
 ## 설치 대상
 
-| Homebrew cask | 용도 |
+| Homebrew 패키지 | 용도 |
 |---|---|
 | `codex` | Codex CLI |
 | `claude-code@latest` | Claude Code CLI (latest 채널) |
@@ -12,9 +12,10 @@
 | `opera` | Opera 브라우저 |
 | `alfred` | 런처 (`Control + Space`) |
 | `chatgpt` | ChatGPT 데스크톱 앱 |
+| `gh` (formula) | GitHub CLI. Orca의 이슈·PR·CI 확인에 사용 |
 | `stablyai/orca/orca` | 여러 AI 코딩 에이전트를 worktree별로 실행하는 Orca (`stablyai/orca` tap) |
 
-Git·Vim·zsh는 이미 설치된 것을 사용합니다. Git·Vim·zsh 추가 패키지, gh·jq·fd·ripgrep, 언어 SDK, IDE, 컨테이너·DB·클라우드 도구, 글꼴, 셸 테마·플러그인은 기본 목록에 없습니다. 필요한 도구만 나중에 추가합니다. Nix·nix-darwin·Home Manager가 작동하는 데 필요한 기반 패키지와 전이 의존성은 별도입니다.
+Git·Vim·zsh는 이미 설치된 것을 사용합니다. Git·Vim·zsh 추가 패키지, jq·fd·ripgrep, 언어 SDK, IDE, 컨테이너·DB·클라우드 도구, 글꼴, 셸 테마·플러그인은 기본 목록에 없습니다. 필요한 도구만 나중에 추가합니다. Nix·nix-darwin·Home Manager가 작동하는 데 필요한 기반 패키지와 전이 의존성은 별도입니다.
 
 `ripgrep`의 실행 명령은 `rg`이며 파일 **내용**을 검색합니다. `fd`는 파일명·경로를 검색합니다. `zsh`는 터미널에서 명령을 해석하는 셸이며 macOS의 `/bin/zsh`를 사용합니다.
 

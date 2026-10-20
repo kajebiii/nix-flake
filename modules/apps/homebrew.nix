@@ -4,6 +4,8 @@
     homebrew = {
       # Orca is distributed through its maintainer's tap, not homebrew-cask.
       taps = [ "stablyai/orca" ];
+      # GitHub CLI; Orca uses it for issues, PRs, and checks.
+      brews = [ "gh" ];
       casks = [
         # Native command-line tools; reuse the existing terminal and editor.
         "codex"
