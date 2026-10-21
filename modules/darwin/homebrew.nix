@@ -1,7 +1,18 @@
-{ config, lib, pkgs, ... }:
+{ ... }:
 {
-  config = {	
+  config = {
     homebrew = {
+      enable = true;
+      prefix = "/opt/homebrew";
+      onActivation = {
+        # Refresh the index and upgrade casks on every apply so AI CLIs stay current.
+        autoUpdate = true;
+        cleanup = "none";
+        upgrade = true;
+      };
+      global.brewfile = true;
+      caskArgs.require_sha = true;
+
       # Orca is distributed through its maintainer's tap, not homebrew-cask.
       taps = [ "stablyai/orca" ];
       # GitHub CLI; Orca uses it for issues, PRs, and checks.
