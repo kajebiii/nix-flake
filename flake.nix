@@ -33,6 +33,9 @@
           ids.gids.nixbld = 350;
           system.primaryUser = adminUser;
           environment.systemPath = [ "/opt/homebrew/bin" ];
+          # Leave macOS's /etc/zshrc, /etc/zshenv and /etc/zprofile alone;
+          # each user's shell setup comes from Home Manager.
+          programs.zsh.enable = false;
           # Set Git commit hash for darwin-version; `make apply` reviews changes since it.
           system.configurationRevision = self.rev or self.dirtyRev or null;
           # Used for backwards compatibility, please read the changelog before changing.
