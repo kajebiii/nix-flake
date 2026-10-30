@@ -37,11 +37,11 @@ in
   (final: prev: {
     agent-slack = pkgs.stdenvNoCC.mkDerivation rec {
       pname = "agent-slack";
-      version = "0.9.3";
+      version = "0.10.2";
 
       src = pkgs.fetchurl {
         url = "https://github.com/stablyai/agent-slack/releases/download/v${version}/agent-slack-darwin-arm64";
-        hash = "sha256-ISvecKk6btX0kRyOc4jLH1a1HuCFABa8K9VbdByiBZY=";
+        hash = "sha256-/5ANXHZAM7c3ZiETtOjFqVPf4mRbhwhTb0GGet1U/js=";
       };
 
       dontUnpack = true;
