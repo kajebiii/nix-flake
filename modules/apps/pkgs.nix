@@ -59,6 +59,7 @@ in
       grpcui
       discord
       nodePackages_latest.diff2html-cli
+      nodePackages."@google/clasp"
       teleport
       postgresql
       ccusage
