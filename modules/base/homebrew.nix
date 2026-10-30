@@ -7,7 +7,7 @@
       brewPrefix = "/opt/homebrew/bin";
       onActivation = {
         autoUpdate = true;
-        cleanup = "zap";
+        cleanup = "none";
         upgrade = true;
       };
 
