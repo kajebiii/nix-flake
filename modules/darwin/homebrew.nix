@@ -32,6 +32,8 @@
         "alfred"
         "chatgpt"
         "stablyai/orca/orca"
+        # Local image generation. With the default storage location, models stay in each user's sandbox container.
+        "draw-things"
       ];
     };
   };
