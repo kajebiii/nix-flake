@@ -13,7 +13,7 @@ AI 계정에는 sudo·관리자 그룹·NOPASSWD sudoers를 주지 않습니다.
 
 | 구성 | 내용 | 실행 권한 |
 |---|---|---|
-| `darwinConfigurations.macbook-m5-jongbeomkim` | Homebrew 앱, Nix 설정, sudo Touch ID | root (`make apply`, 관리자만) |
+| `darwinConfigurations.mbp-m5` | Homebrew 앱, Nix 설정, sudo Touch ID | root (`make apply`, 관리자만) |
 | `homeConfigurations."jongbeom.kim"` | 공통 홈 + 개인 Git 설정 | 관리자 본인 (`make home`) |
 | `homeConfigurations."kajebiii.lab"` | 공통 홈 + AI Git 설정 | AI 계정 본인 (`make home`) |
 
@@ -113,7 +113,7 @@ AI 계정에서 직접 한 번씩 설정할 항목입니다. Nix로 관리하지
 - Alfred: Preferences → General → Alfred Hotkey를 `Control + Space`로 지정
 - Orca 초기 설정
 
-`make build`는 시스템을 적용하지 않고 빌드만 합니다. 기본 구성은 `macbook-m5-jongbeomkim`이며 다른 이름은 `make apply SYSTEM_CONFIG=이름`으로 지정합니다. Nix 의존성 갱신은 `make update`입니다.
+`make build`는 시스템을 적용하지 않고 빌드만 합니다. 기본 구성은 `mbp-m5`이며 다른 이름은 `make apply SYSTEM_CONFIG=이름`으로 지정합니다. Nix 의존성 갱신은 `make update`입니다.
 
 ## 운영 규칙
 

@@ -1,4 +1,4 @@
-SYSTEM_CONFIG ?= macbook-m5-jongbeomkim
+SYSTEM_CONFIG ?= mbp-m5
 HOME_CONFIG   ?= $(shell id -un)
 ADMIN_USER    := jongbeom.kim
 NIX_FLAGS = --extra-experimental-features "nix-command flakes"

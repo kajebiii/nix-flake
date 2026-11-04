@@ -16,8 +16,8 @@
     pkgs = nixpkgs.legacyPackages.${system};
     # Owns /opt/homebrew and runs `make apply`; never the AI account.
     adminUser = "jongbeom.kim";
-    # Flake selector; use `scutil --get LocalHostName` for a machine-specific name.
-    configurationName = "macbook-m5-jongbeomkim";
+    # Flake selector and the machine's host name (also set below).
+    configurationName = "mbp-m5";
 
     mkHome = modules: home-manager.lib.homeManagerConfiguration {
       inherit pkgs modules;
@@ -32,6 +32,8 @@
         ({ ... }: {
           ids.gids.nixbld = 350;
           system.primaryUser = adminUser;
+          # Sets HostName and LocalHostName; ComputerName stays as set in System Settings.
+          networking.hostName = configurationName;
           environment.systemPath = [ "/opt/homebrew/bin" ];
           # Leave macOS's /etc/zshrc, /etc/zshenv and /etc/zprofile alone;
           # each user's shell setup comes from Home Manager.
