@@ -17,7 +17,7 @@
     # Owns /opt/homebrew and runs `make apply`; never the AI account.
     adminUser = "jongbeom.kim";
     # Flake selector and the machine's host name (also set below).
-    configurationName = "mbp-m5";
+    configurationName = "mbp";
 
     mkHome = modules: home-manager.lib.homeManagerConfiguration {
       inherit pkgs modules;
@@ -32,8 +32,9 @@
         ({ ... }: {
           ids.gids.nixbld = 350;
           system.primaryUser = adminUser;
-          # Sets HostName and LocalHostName; ComputerName stays as set in System Settings.
+          # Sets HostName, LocalHostName and ComputerName.
           networking.hostName = configurationName;
+          networking.computerName = configurationName;
           environment.systemPath = [ "/opt/homebrew/bin" ];
           # Leave macOS's /etc/zshrc, /etc/zshenv and /etc/zprofile alone;
           # each user's shell setup comes from Home Manager.
