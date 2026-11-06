@@ -1,6 +1,7 @@
 SYSTEM_CONFIG ?= mbp
 HOME_CONFIG   ?= $(shell id -un)
 ADMIN_USER    := jongbeom.kim
+LAB_USER      := kajebiii.lab
 NIX_FLAGS = --extra-experimental-features "nix-command flakes"
 # Forward only the config file path to sudo, never a token or the full environment.
 NIX_USER_CONF_FILES ?= $(if $(XDG_CONFIG_HOME),$(XDG_CONFIG_HOME),$(HOME)/.config)/nix/nix.conf
@@ -36,10 +37,11 @@ apply: build
 	$(call review,$(LAST_APPLIED),make apply (runs as root))
 	sudo env NIX_USER_CONF_FILES="$(NIX_USER_CONF_FILES)" ./result/sw/bin/darwin-rebuild switch --flake ".#$(SYSTEM_CONFIG)"
 
-# Home: each user for themselves, no sudo. Only the admin gets the review step.
+# Home: each user for themselves, no sudo. Every account except the AI one
+# reviews first, since the AI account can push to this branch.
 home:
-ifeq ($(HOME_CONFIG),$(ADMIN_USER))
-	$(call review,$(LAST_HOME),make home as $(ADMIN_USER))
+ifneq ($(HOME_CONFIG),$(LAB_USER))
+	$(call review,$(LAST_HOME),make home as $(HOME_CONFIG))
 endif
 	nix $(NIX_FLAGS) run ".#home-manager" -- switch --flake ".#$(HOME_CONFIG)"
 	@mkdir -p "$(dir $(HOME_STATE))" && git rev-parse HEAD > "$(HOME_STATE)"

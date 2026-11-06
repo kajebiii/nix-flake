@@ -1,11 +1,12 @@
 # nix-flake
 
-한 Mac 안에서 개인 관리자 계정과 AI 작업 전용 표준 계정을 함께 운영하는 macOS 환경입니다. nix-darwin으로 시스템을, Home Manager(standalone)로 사용자별 홈을 관리합니다.
+한 Mac 안에서 개인 관리자 계정, AI 작업 전용 표준 계정, AI가 읽지 못하는 오프라인 작업용 표준 계정을 함께 운영하는 macOS 환경입니다. nix-darwin으로 시스템을, Home Manager(standalone)로 사용자별 홈을 관리합니다.
 
 | macOS 계정 | 권한 | 용도 | GitHub | Git 이메일 | 적용 명령 |
 |---|---|---|---|---|---|
 | `jongbeom.kim` | 관리자 | 개인 사용, 시스템 관리 | `kajebiii` | `kajebiii@gmail.com` | `make apply`, `make home` |
 | `kajebiii.lab` | 표준(sudo 없음) | AI 에이전트 작업 | `kajebiii-lab` | `kajebiii.lab@gmail.com` | `make home` |
+| `kajebiii.offline` | 표준(sudo 없음) | AI가 읽으면 안 되는 로컬 작업 (Draw Things 등) | 없음 (HTTPS 읽기 전용) | 없음 | `make home` |
 
 AI 계정에는 sudo·관리자 그룹·NOPASSWD sudoers를 주지 않습니다. 개인 Apple 계정, 브라우저 동기화, 개인 SSH 키, 클라우드 인증도 AI 계정에 넣지 않습니다. 로그인 토큰과 API 키는 저장소나 Nix 표현식에 넣지 않습니다. Nix store는 모든 사용자가 읽을 수 있습니다.
 
@@ -16,14 +17,16 @@ AI 계정에는 sudo·관리자 그룹·NOPASSWD sudoers를 주지 않습니다.
 | `darwinConfigurations.mbp` | Homebrew 앱, Nix 설정, sudo Touch ID | root (`make apply`, 관리자만) |
 | `homeConfigurations."jongbeom.kim"` | 공통 홈 + 개인 Git 설정 | 관리자 본인 (`make home`) |
 | `homeConfigurations."kajebiii.lab"` | 공통 홈 + AI Git 설정 | AI 계정 본인 (`make home`) |
+| `homeConfigurations."kajebiii.offline"` | 공통 홈만 | 오프라인 계정 본인 (`make home`) |
 
 ```
 modules/
   darwin/          # 시스템: nix.nix, homebrew.nix, security.nix
   home/
-    common/        # 두 계정 공통: 셸, macOS 기본 설정, 단축키
+    common/        # 모든 계정 공통: 셸, macOS 기본 설정, 단축키
     personal/      # jongbeom.kim 전용 (Git)
     lab/           # kajebiii.lab 전용 (Git)
+    offline/       # kajebiii.offline 전용 (공통만)
 ```
 
 `system.primaryUser`는 `jongbeom.kim`입니다. `/opt/homebrew`가 이 계정 소유이므로 Homebrew 설치·업그레이드는 관리자만 할 수 있습니다. AI 계정은 설치된 앱과 명령을 실행만 합니다.
@@ -113,6 +116,17 @@ AI 계정에서 직접 한 번씩 설정할 항목입니다. Nix로 관리하지
 - Alfred: Preferences → General → Alfred Hotkey를 `Control + Space`로 지정
 - Orca 초기 설정
 
+오프라인 계정(`kajebiii.offline`):
+
+```bash
+chmod 700 ~   # 새 계정 홈은 750이라 같은 staff 그룹인 AI 계정이 목록을 볼 수 있습니다.
+git clone --branch kajebiii.lab https://github.com/kajebiii/nix-flake.git ~/workspace/nix-flake
+cd ~/workspace/nix-flake
+make home     # 관리자처럼 변경 내용을 보여 주고 y/N을 묻습니다.
+```
+
+SSH 키, `gh` 로그인, Git 작성자 설정은 두지 않습니다. 이 계정에서는 push하지 않습니다.
+
 `make build`는 시스템을 적용하지 않고 빌드만 합니다. 기본 구성은 `mbp`이며 다른 이름은 `make apply SYSTEM_CONFIG=이름`으로 지정합니다. Nix 의존성 갱신은 `make update`입니다.
 
 ## 운영 규칙
@@ -120,8 +134,8 @@ AI 계정에서 직접 한 번씩 설정할 항목입니다. Nix로 관리하지
 **관리자가 실행하는 코드는 적용 전에 읽습니다.** AI 계정에 sudo가 없어도, AI가 고친 flake를 관리자가 적용하면 그 코드는 root(`make apply`)나 관리자 권한(`make home`)으로 실행됩니다. 예를 들어 활성화 스크립트에 "AI 계정을 admin 그룹에 추가"가 들어가면 적용 한 번에 계정 분리가 무효가 됩니다.
 
 - 검토 대상은 `modules/home/lab/`을 뺀 저장소 전부입니다. `flake.nix`, `flake.lock`, `Makefile`, `modules/darwin/`, `modules/home/common/`, `modules/home/personal/`이 해당합니다.
-- `make apply`와 관리자의 `make home`은 마지막으로 적용한 커밋 이후 변경(커밋하지 않은 변경 포함)을 보여 주고 y/N을 묻습니다. diff를 읽지 않고 y를 누르면 의미가 없습니다. 기준 커밋은 `make apply`는 `darwin-version --configuration-revision`, `make home`은 `~/.local/state/nix-flake/last-home-rev`입니다. 기준을 모르면 `git status`만 보여 주므로 작업 트리를 직접 확인합니다.
-- **이 확인 프롬프트는 `Makefile` 안에 있어 AI가 고칠 수 있습니다.** 그래서 관리자 계정에서 `git pull`을 할 때 출력되는 파일 목록에 `Makefile`·`flake.nix`·`flake.lock`이 있으면, 적용 전에 그 파일들의 diff를 직접 엽니다.
+- `make apply`와 AI 계정을 뺀 모든 계정의 `make home`은 마지막으로 적용한 커밋 이후 변경(커밋하지 않은 변경 포함)을 보여 주고 y/N을 묻습니다. diff를 읽지 않고 y를 누르면 의미가 없습니다. 기준 커밋은 `make apply`는 `darwin-version --configuration-revision`, `make home`은 `~/.local/state/nix-flake/last-home-rev`입니다. 기준을 모르면 `git status`만 보여 주므로 작업 트리를 직접 확인합니다.
+- **이 확인 프롬프트는 `Makefile` 안에 있어 AI가 고칠 수 있습니다.** 그래서 관리자·오프라인 계정에서 `git pull`을 할 때 출력되는 파일 목록에 `Makefile`·`flake.nix`·`flake.lock`이 있으면, 적용 전에 그 파일들의 diff를 직접 엽니다.
 - GitHub 브랜치 보호와 PR 강제는 지금은 쓰지 않습니다. AI 작업 범위가 커지거나 협업자가 늘면 추가합니다.
 - 앱 업데이트는 관리자만 할 수 있습니다. AI 계정에서 Claude Code 등이 "업데이트 가능"을 표시해도 그 계정에서는 설치할 수 없습니다. 관리자가 `make apply`할 때 함께 업그레이드됩니다.
 - 새 GUI 앱은 `modules/darwin/homebrew.nix`에 추가하고 관리자가 `make apply`합니다.
@@ -159,7 +173,7 @@ Makefile은 `NIX_USER_CONF_FILES`에 파일 경로만 담아 빌드와 관리자
 | 앱·CLI 추가, Homebrew 정책 | `modules/darwin/homebrew.nix` |
 | Nix 설정 | `modules/darwin/nix.nix` |
 | sudo Touch ID | `modules/darwin/security.nix` |
-| 두 계정 공통 셸 | `modules/home/common/shell.nix` |
+| 모든 계정 공통 셸 | `modules/home/common/shell.nix` |
 | macOS 기본 설정·키 반복 | `modules/home/common/macos-defaults.nix` |
 | 한영 전환·Spotlight 단축키 | `modules/home/common/hotkeys.nix` |
 | 관리자 Git 설정 | `modules/home/personal/git.nix` |

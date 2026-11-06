@@ -52,6 +52,7 @@
     homeConfigurations = {
       "jongbeom.kim" = mkHome [ ./modules/home/personal ];
       "kajebiii.lab" = mkHome [ ./modules/home/lab ];
+      "kajebiii.offline" = mkHome [ ./modules/home/offline ];
     };
 
     # `make home` runs Home Manager from the locked input.
