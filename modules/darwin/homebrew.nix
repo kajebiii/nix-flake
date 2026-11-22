@@ -34,6 +34,10 @@
         "stablyai/orca/orca"
         # Local image generation. With the default storage location, models stay in each user's sandbox container.
         "draw-things"
+        # Personal notes as Markdown files; the vault lives in the admin account's Dropbox folder.
+        "obsidian"
+        # Carries notes from the phone to the vault. Sign in only in the admin account.
+        "dropbox"
       ];
     };
   };
